@@ -11,7 +11,7 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const secret_name = "db_mysql";
+const secret_name = "db_mysql_lab01";
 
 const client = new SecretsManagerClient({
   region: process.env.AWS_REGION || "ap-southeast-1",
@@ -37,7 +37,7 @@ async function getSecret() {
       host: secret.host,
       user: secret.username,
       password: secret.password,
-      database: `${process.env.DB_NAME}`,
+      database: secret.db_name,
       port: secret.port,
     };
   } catch (error) {
