@@ -11,7 +11,7 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const secret_name = "db_mysql_lab01_hcmus";
+const secret_name = "mysql_lab01_hcmus";
 
 const client = new SecretsManagerClient({
   region: process.env.AWS_REGION || "ap-southeast-1",
