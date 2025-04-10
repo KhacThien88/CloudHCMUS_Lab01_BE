@@ -20,7 +20,6 @@ phases:
   post_build:
     commands:
       - echo Starting application...
-      - node server.js
 artifacts:
   files:
     - '**/*'
