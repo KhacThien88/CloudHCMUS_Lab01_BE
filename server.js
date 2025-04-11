@@ -11,7 +11,7 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const secret_name = "mysqldb_taskapp";
+const secret_name = "secret_db";
 
 const client = new SecretsManagerClient({
   region: process.env.AWS_REGION || "ap-southeast-1",
