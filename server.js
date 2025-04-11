@@ -11,7 +11,7 @@ const port = 5000;
 app.use(cors());
 app.use(bodyParser.json());
 
-const secret_name = "secrett_db_mysql_2";
+const secret_name = "secrett_db_mysql_3";
 
 const client = new SecretsManagerClient({
   region: process.env.AWS_REGION || "ap-southeast-1",
