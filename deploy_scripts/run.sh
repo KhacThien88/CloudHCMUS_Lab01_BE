@@ -1,5 +1,5 @@
 #!/bin/bash
-cd /home/ec2-user/my-app
+cd /home/ec2-user/node
 npm install
 pm2 stop all || true
 pm2 delete all || true
