@@ -15,7 +15,6 @@ phases:
       - SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id credential-login --region ap-southeast-1 --query SecretString --output text || exit 1)
       - echo "Creating .env file..."
       - echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
-      - echo "Created .env with keys: $(cut -d= -f1 .env | tr '\n' ' ')"
 
   build:
     commands:
