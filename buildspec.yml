@@ -11,16 +11,17 @@ phases:
   pre_build:
     commands:
       - echo "Fetching secrets from Secrets Manager..."
-      - |
-        SECRET_JSON=$(aws secretsmanager get-secret-value \
-          --secret-id credential-login \
-          --region ap-southeast-1 \
-          --query SecretString \
-          --output text)
+      - >
+        SECRET_JSON=$(aws secretsmanager get-secret-value
+        --secret-id credential-login
+        --region ap-southeast-1
+        --query SecretString
+        --output text)
       - echo "Creating .env file..."
-      - |
+      - >
         echo "$SECRET_JSON" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
       - echo "Created .env with keys: $(cat .env | cut -d= -f1)"
+
   build:
     commands:
       - echo Building application...
@@ -29,6 +30,7 @@ phases:
   post_build:
     commands:
       - echo Starting application...
+
 artifacts:
   files:
     - '**/*'
