@@ -3,30 +3,31 @@ version: 0.2
 phases:
   install:
     runtime-versions:
-      nodejs: 12
+      nodejs: 16  # Node.js 12 is deprecated; use 16 or higher
     commands:
-      - echo Installing dependencies...
+      - echo "Installing dependencies..."
       - npm install
+      - sudo yum install -y jq  # Ensure `jq` is installed for JSON parsing
 
   pre_build:
     commands:
-      - echo "Fetching secrets from Secrets Manager..."
-      - echo "Fetching secrets..."
-      - SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id credential-login --region ap-southeast-1 --query SecretString --output text)
+      - echo "Fetching secrets from AWS Secrets Manager..."
+      # Retrieve secret and handle errors
+      - SECRET_JSON=$(aws secretsmanager get-secret-value --secret-id credential-login --region ap-southeast-1 --query SecretString --output text || exit 1)
       - echo "Creating .env file..."
-      - echo "$SECRET_JSON" | jq -r 'to_entries | .[] | "\(.key)=\(.value)"' > .env
-      - echo "Created .env with keys: $(cat .env | cut -d= -f1)"
+      - echo "$SECRET_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' > .env
+      - echo "Created .env with keys: $(cut -d= -f1 .env | tr '\n' ' ')"
 
   build:
     commands:
-      - echo Building application...
-      - echo Build completed on `date`
+      - echo "Building application..."
+      - echo "Build completed on $(date)"
 
   post_build:
     commands:
-      - echo Starting application...
+      - echo "Starting application..."
 
 artifacts:
   files:
     - '**/*'
-  discard-paths: no
+  discard-paths: false  # Use boolean `false`, not `no`
